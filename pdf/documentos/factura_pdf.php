@@ -47,7 +47,7 @@
  
     if($insert){
     
-	 $location = 'http://localhost/islatec/editar_factura.php?id_factura='.$last_id;		 
+	 $location = 'http://localhost/Facturas-KM-group/editar_factura.php?id_factura='.$last_id;		 
 	 $message = alert_msg('Factura creada!','success');
 	echo "<script>
 	   $('#resultados').html('".$message."');

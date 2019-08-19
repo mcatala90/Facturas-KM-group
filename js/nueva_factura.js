@@ -69,7 +69,7 @@
 		}
 		
 		$("#send_form").click(function(){
-		  var id_cliente = $("#id_cliente").val();
+		  var id_cliente = $('option:selected','#nombre_cliente').attr('value');
 		  var id_vendedor = $("#id_vendedor").val();
 		  var condiciones = $("#condiciones").val();
 		  
@@ -104,7 +104,7 @@
 					success: function(datos){
 					$("#resultados_ajax").html(datos);
 					$('#guardar_datos').attr("disabled", false);
-					load(1);
+					location.reload();
 				  }
 			});
 		  event.preventDefault();

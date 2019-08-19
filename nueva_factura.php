@@ -44,8 +44,25 @@
 				  <label for="nombre_cliente" class="col-md-1 control-label">Cliente</label>
 				 
 				  <div class="col-md-2">
-					  <input type="text" class="form-control input-sm" id="nombre_cliente" placeholder="Selecciona un cliente" required>
-					  <input id="id_cliente" type='hidden'>	
+				  <select class="form-control input-sm" id="nombre_cliente" name="id_cliente">
+									<?php
+										$sql_cliente=mysqli_query($con,"select * from clientes order by nombre_cliente");
+										$rw=mysqli_fetch_array($sql_cliente);
+										
+										while ($rw=mysqli_fetch_array($sql_cliente)){
+											$id_cliente=$rw["id_cliente"];
+											$nombre_cliente=$rw["nombre_cliente"];
+											
+
+											
+											?>
+											<option value="<?php echo $id_cliente ?>" ><?php echo $nombre_cliente ?></option>
+											<?php
+										}
+									
+									?>
+									<option value="" selected></option>
+								</select>
 				  </div>
 				  <div class="col-md-1">
 				  <button type="button" style="padding:4px;" class="btn btn-default" data-toggle="modal" data-target="#nuevoCliente">
@@ -146,39 +163,31 @@
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
     <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 	<script>
-		$(function() {
-						$("#nombre_cliente").autocomplete({
-							source: "./ajax/autocomplete/clientes.php",
-							minLength: 2,
-							select: function(event, ui) {
-								event.preventDefault();
-								$('#id_cliente').val(ui.item.id_cliente);
-								$('#nombre_cliente').val(ui.item.nombre_cliente);
-								$('#tel1').val(ui.item.telefono_cliente);
-								$('#mail').val(ui.item.email_cliente);
-																
-								
-							 }
-						});
-						 
+				$("#nombre_cliente" ).on("change", function()
+					{
+					   var id = $('option:selected','#nombre_cliente').attr('value');
+
+						$.ajax({
+				
+							type: "POST",
+							url: "./ajax/autocomplete/info_cliente.php",
+							data: "id="+id,
+							
+							success: function(datos){
+					   
+								var datos = JSON.parse(datos);
+
+						$('#id_cliente').val(datos[0].id_cliente);
+					    
+						$('#tel1').val(datos[0].telefono_cliente);
+						$('#mail').val(datos[0].email_cliente);
+							}
+	             		});   
+				
 						
-					});
-					
-	$("#nombre_cliente" ).on( "keydown", function( event ) {
-						if (event.keyCode== $.ui.keyCode.LEFT || event.keyCode== $.ui.keyCode.RIGHT || event.keyCode== $.ui.keyCode.UP || event.keyCode== $.ui.keyCode.DOWN || event.keyCode== $.ui.keyCode.DELETE || event.keyCode== $.ui.keyCode.BACKSPACE )
-						{
-							$("#id_cliente" ).val("");
-							$("#tel1" ).val("");
-							$("#mail" ).val("");
-											
-						}
-						if (event.keyCode==$.ui.keyCode.DELETE){
-							$("#nombre_cliente" ).val("");
-							$("#id_cliente" ).val("");
-							$("#tel1" ).val("");
-							$("#mail" ).val("");
-						}
-			});	
+					 
+					}); 
+
 	</script>
 
   </body>
