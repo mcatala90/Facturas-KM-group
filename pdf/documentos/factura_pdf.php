@@ -47,7 +47,9 @@
  
     if($insert){
     
-	 $location = 'http://localhost/Facturas-KM-group/editar_factura.php?id_factura='.$last_id;		 
+		$url =   explode("/", $_SERVER['REQUEST_URI']);
+		
+	 $location = '../'.$url[1].'/editar_factura.php?id_factura='.$last_id;		 
 	 $message = alert_msg('Factura creada!','success');
 	echo "<script>
 	   $('#resultados').html('".$message."');

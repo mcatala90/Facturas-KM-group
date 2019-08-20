@@ -33,6 +33,9 @@
 		<div class="panel-heading">
 		    <div class="btn-group pull-right">
 				<a  href="nueva_factura.php" class="btn btn-info"><span class="glyphicon glyphicon-plus" ></span> Nueva Factura</a>
+				<?php 
+			
+				?>
 			</div>
 			<h4><i class='glyphicon glyphicon-search'></i> Buscar Facturas</h4>
 		</div>

@@ -37,6 +37,7 @@ if (isset($_GET['id_partida']))//Eliminar partida
 {
 $id_partida=intval($_GET['id_partida']);	
 $delete=mysqli_query($con, "DELETE FROM partidas  WHERE id_partida='".$id_partida."'");
+$delete=mysqli_query($con, "DELETE FROM detalle_factura  WHERE id_partida='".$id_partida."'");
 }
 
 $simbolo_moneda=get_row('perfil','moneda', 'id_perfil', 1);
@@ -64,12 +65,10 @@ while ($row=mysqli_fetch_array($sql))
 <table class="table" id="partida<?php echo $partida; ?>">
 	
 <tr>
-
-	<th class='text-center'>CODIGO</th>
-	<th class='text-center'>CANT.</th>
-	<th>DESCRIPCION</th>
-	<th class='text-right'>PRECIO UNIT.</th>
-	<th class='text-right'>PRECIO TOTAL</th>
+<th>CONCEPTO</th>
+<th class='text-right'>PRECIO UNIT.</th>
+<th class='text-center'>CANT.</th>
+<th class='text-right'>PRECIO TOTAL</th>
 	<th></th>
 </tr>
 
@@ -93,12 +92,11 @@ while ($row=mysqli_fetch_array($sql))
 
 	<table class="table" id="partida0">
 	<tr>
-
-		<th class='text-center'>CODIGO</th>
-		<th class='text-center'>CANT.</th>
-		<th>DESCRIPCION</th>
-		<th class='text-right'>PRECIO UNIT.</th>
-		<th class='text-right'>PRECIO TOTAL</th>
+	
+	<th>CONCEPTO</th>
+<th class='text-right'>PRECIO UNIT.</th>
+<th class='text-center'>CANT.</th>
+<th class='text-right'>PRECIO TOTAL</th>
 		<th></th>
 	</tr>
 	</table>
@@ -123,11 +121,14 @@ $sql_b=mysqli_query($con, "select * from products, facturas, detalle_factura whe
 	$precio_total_f=number_format($precio_total,2);//Precio total formateado
 	$precio_total_r=str_replace(",","",$precio_total_f);//Reemplazo las comas
 	$sumador_total+=$precio_total_r;//Sumador
+	$nombre_producto =  str_replace(array("\r\n", "\r"), "<br>",$nombre_producto);
 	
 		?>
 
 		<script>
-		 $("#partida<?php echo $id_to_append; ?>").append("<tr><td class='text-center'><?php echo $codigo_producto;?></td><td class='text-center'><?php echo $cantidad;?></td><td><?php echo $nombre_producto;?></td><td class='text-right'><?php echo $precio_venta_f;?></td><td class='text-right'><?php echo $precio_total_f;?></td><td class='text-center'><a  onclick='eliminar(<?php echo $id_detalle ?>)'><i class='glyphicon glyphicon-trash'></i></a></td></tr>");
+       var n_p = "<?php echo $nombre_producto; ?>";
+	  
+		 $("#partida<?php echo $id_to_append; ?>").append("<tr><td>"+n_p+"</td><td class='text-right'><?php echo $precio_venta_f;?></td><td class='text-center'><?php echo $cantidad;?></td><td class='text-right'><?php echo $precio_total_f;?></td><td class='text-center'><a  onclick='eliminar(<?php echo $id_detalle ?>)'><i class='glyphicon glyphicon-trash'></i></a></td></tr>");
 		</script>
 		
 		<?php

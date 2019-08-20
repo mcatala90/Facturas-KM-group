@@ -159,6 +159,7 @@
 					  $("#resultados_ajax_partidas").html(datos);
 					  $('#guardar_datos').attr("disabled", false);
 					  $( "#resultados" ).load( "ajax/editar_facturacion.php" );
+					  $("#nuevaPartida").modal('hide');
 					}
 			  });
 			event.preventDefault();
